@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class AuthServiceApplication {
+public class AuthServiceApplication { 
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServiceApplication.class, args);
