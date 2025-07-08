@@ -1,0 +1,27 @@
+#java
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+#Eclipse
+*.classpath
+*.project
+*.settings/
+.metadata/
+bin/
+
+#Maven
+target/
+
+# Docker
+.env
+
+# SO
+.DS_Store
+Thumbs.db
+
+**/application-secrets.env
