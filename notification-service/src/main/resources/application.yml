@@ -1,0 +1,19 @@
+server:
+  port: 8085
+  
+sendgrid:
+  api-key: ${SENDGRID_API_KEY}
+
+email:
+  sender: ${EMAIL_STORE}
+  
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: notification-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: "*"

@@ -1,0 +1,27 @@
+server:
+  port: 8081
+
+spring:
+#  config:
+#    import: optional:application-secrets.yml
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${AUTH_DB}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+  jpa:
+   hibernate:
+     ddl-auto: update
+   show-sql: true
+   properties:
+     hibernate:
+       format_sql: true
+
+jwt:
+  secret: ${JWT_SECRET}
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
