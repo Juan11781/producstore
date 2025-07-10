@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +20,10 @@ import com.sales.order_service.client.ProductClient;
 import com.sales.order_service.dto.NotificationMessage;
 import com.sales.order_service.dto.OrderResponseDto;
 import com.sales.order_service.dto.ProductDto;
+import com.sales.order_service.dto.StockEvent;
 import com.sales.order_service.entity.Order;
 import com.sales.order_service.entity.OrderedProduct;
+import com.sales.order_service.kafka.StockEventProducer;
 import com.sales.order_service.repository.OrderRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,18 +39,21 @@ public class OrderController {
 	
 	private final OrderRepository orderRepository;
 	private final ProductClient productClient;
-	private KafkaTemplate<String,NotificationMessage>kafkaTemplate;
-
+	private final KafkaTemplate<String,NotificationMessage>kafkaTemplate;
+	private final StockEventProducer stockEventProducer;
+	private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+	
 	
 	
 	public OrderController(OrderRepository orderRepository, ProductClient productClient,
-			KafkaTemplate<String, NotificationMessage> kafkaTemplate) {
+			KafkaTemplate<String, NotificationMessage> kafkaTemplate, StockEventProducer stockEventProducer) {
 		super();
 		this.orderRepository = orderRepository;
 		this.productClient = productClient;
 		this.kafkaTemplate = kafkaTemplate;
+		this.stockEventProducer = stockEventProducer;
 	}
-	
+
 	@GetMapping("/send")
 	public String sendTestMessage() {
 		NotificationMessage message = new NotificationMessage(
@@ -129,6 +136,17 @@ public class OrderController {
 			total += product.getPrice();
 		}
 		
+		for(OrderedProduct op : orderedProducts) {
+			StockEvent event = new StockEvent(
+				String.valueOf(op.getProductId()),
+				"VENTA",
+				1,
+				LocalDateTime.now(),
+				"order-service"
+			);
+			logger.info("Enviando evento de stock: {}",event);
+			stockEventProducer.sendStockEvent(event);
+		}
 	
 		order.setTotal(total);
 		order.setOrderedProducts(orderedProducts);

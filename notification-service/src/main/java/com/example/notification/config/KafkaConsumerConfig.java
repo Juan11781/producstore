@@ -27,6 +27,7 @@ public class KafkaConsumerConfig {
 	private String bootstrapServers;
 	@Bean
 	public ConsumerFactory<String, NotificationMessage> consumerFactory(){
+		
 		JsonDeserializer<NotificationMessage>deserializer = new JsonDeserializer<>(NotificationMessage.class);
 		deserializer.setRemoveTypeHeaders(false);
 		deserializer.addTrustedPackages("com.example.notification.dto");

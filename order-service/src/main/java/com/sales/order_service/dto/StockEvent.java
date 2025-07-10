@@ -1,4 +1,4 @@
-package com.sales.stockhistory.dto;
+package com.sales.order_service.dto;
 
 import java.time.LocalDateTime;
 
@@ -9,18 +9,15 @@ public class StockEvent {
 	private LocalDateTime timeStamp;
 	private String origin;
 	
-	
-
-	public StockEvent() {
-		super();
-	}
-	public StockEvent(String productId, String action, int quantityChanged, LocalDateTime timeStamp, String origin) {
-		super();
+	public StockEvent() {}
+	public StockEvent(String productId,String action, int quantityChanged,
+			LocalDateTime timeStamp, String origin) {
+		
 		this.productId = productId;
 		this.action = action;
-		this.quantityChanged = quantityChanged;
+		this.quantityChanged=quantityChanged;
 		this.timeStamp = timeStamp;
-		this.origin = origin;
+		this.origin=origin;
 	}
 	public String getProductId() {
 		return productId;
@@ -52,6 +49,4 @@ public class StockEvent {
 	public void setOrigin(String origin) {
 		this.origin = origin;
 	}
-	
-	
 }

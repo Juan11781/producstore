@@ -24,6 +24,21 @@ public class StockHistory {
 	
 	
 	
+	
+	
+	public StockHistory() {
+		super();
+	}
+	public StockHistory(Long id, String productId, String action, int quantityChanged, LocalDateTime timeStamp,
+			String origin) {
+		super();
+		this.id = id;
+		this.productId = productId;
+		this.action = action;
+		this.quantityChanged = quantityChanged;
+		this.timeStamp = timeStamp;
+		this.origin = origin;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -26,6 +26,11 @@ spring:
           predicates:
             - Path=/orders/**
 
+        - id: stock-history-service
+          uri: lb://stock-history-service
+          predicates:
+            - Path=/stock-history**
+
       globalcors:
         corsConfigurations:
           '[/**]':
